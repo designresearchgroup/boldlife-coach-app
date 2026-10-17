@@ -13,8 +13,7 @@ flow is **stage → she accepts → we deploy for BLC**.
 The browser build of the platform (the Electron app's renderer, no desktop shell)
 deployed to a review URL:
 
-- **Staging URL:** `https://designresearchgroup.github.io/boldlife-coach-app/`
-  *(live once the public repo + Pages are approved — see "Pending approval" below)*
+- **Staging URL:** `https://designresearchgroup.github.io/boldlife-coach-app/` — **LIVE**
 - **Source:** `designresearchgroup/boldlife-coach-app`, auto-rebuilt on every push by
   `.github/workflows/deploy-web.yml`.
 - **Desktop installers** (Mac `.dmg` / Windows `.exe`) build separately via
@@ -28,6 +27,8 @@ Open the staging URL and confirm each is right for The Bold Life:
 
 - [ ] **Brand** — burgundy (#DC343B) + black, Poppins/Montserrat, the real logo,
       no-fill outline buttons. No HumanData blue, no pink.
+- [ ] **Sales is light** — the **Enroll** screen renders in light mode (so people can
+      see it to buy); member screens stay dark.
 - [ ] **Dashboard** — the landing/overview reads as hers.
 - [ ] **Learn / Academy** — the curriculum library layout and module design.
 - [ ] **Lesson + video player** — a recorded lesson plays; scrubber, speed, resume,
@@ -73,11 +74,8 @@ Steps 1–3 are enough to **run coaching for BLC**. 4 adds payments; 5 adds the 
 
 ---
 
-## 5. Pending approval (blocks the live URL)
+## 5. Status
 
-The staging repo must be **public** for free GitHub Pages hosting (same as the
-bold-life and coach-platform sites). Creating a public repo needs James's go-ahead.
-Alternative: a **private** repo with Pages (requires GitHub Pro on the account).
-
-> **Status:** code committed locally with the deploy workflow; waiting on the OK to
-> create `designresearchgroup/boldlife-coach-app` (public) and turn on Pages.
+> **Deployed.** `designresearchgroup/boldlife-coach-app` is live (public, same as the
+> bold-life and coach-platform sites), GitHub Pages is on via Actions, and every push
+> to `main` auto-rebuilds and republishes the staging URL above. Ready for her review.
