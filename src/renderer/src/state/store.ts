@@ -8,6 +8,7 @@ import {
   type Level,
   type Module
 } from '@renderer/data/curriculum'
+import type { Contact, Broadcast, Sequence } from '@renderer/services/email'
 
 export type View =
   | 'dashboard'
@@ -19,6 +20,7 @@ export type View =
   | 'liveclass'
   | 'pricing'
   | 'coach'
+  | 'email'
 
 export interface Recording {
   id: string
@@ -43,6 +45,9 @@ export interface State {
   quizScores: Record<string, number> // moduleId -> best %
   entitlements: Record<string, boolean>
   recordings: Recording[]
+  contacts: Contact[]
+  broadcasts: Broadcast[]
+  sequences: Sequence[]
   nav: Nav
 
   setRole: (r: Role) => void
@@ -54,6 +59,13 @@ export interface State {
   recordQuiz: (moduleId: string, score: number) => void
   enroll: (key: string) => void
   addRecording: (r: Recording) => void
+  addContact: (c: Contact) => void
+  removeContact: (id: string) => void
+  addBroadcast: (b: Broadcast) => void
+  updateBroadcast: (id: string, patch: Partial<Broadcast>) => void
+  addSequence: (seq: Sequence) => void
+  updateSequence: (id: string, patch: Partial<Sequence>) => void
+  removeSequence: (id: string) => void
   resetProgress: () => void
 }
 
@@ -68,6 +80,9 @@ export const useStore = create<State>()(
       quizScores: {},
       entitlements: {},
       recordings: [],
+      contacts: [],
+      broadcasts: [],
+      sequences: [],
       nav: { view: 'dashboard' },
 
       setRole: (role) => set({ role }),
@@ -93,6 +108,15 @@ export const useStore = create<State>()(
         })),
       enroll: (key) => set((s) => ({ entitlements: { ...s.entitlements, [key]: true } })),
       addRecording: (r) => set((s) => ({ recordings: [r, ...s.recordings] })),
+      addContact: (c) => set((s) => ({ contacts: [c, ...s.contacts] })),
+      removeContact: (id) => set((s) => ({ contacts: s.contacts.filter((c) => c.id !== id) })),
+      addBroadcast: (b) => set((s) => ({ broadcasts: [b, ...s.broadcasts] })),
+      updateBroadcast: (id, patch) =>
+        set((s) => ({ broadcasts: s.broadcasts.map((b) => (b.id === id ? { ...b, ...patch } : b)) })),
+      addSequence: (seq) => set((s) => ({ sequences: [seq, ...s.sequences] })),
+      updateSequence: (id, patch) =>
+        set((s) => ({ sequences: s.sequences.map((q) => (q.id === id ? { ...q, ...patch } : q)) })),
+      removeSequence: (id) => set((s) => ({ sequences: s.sequences.filter((q) => q.id !== id) })),
       resetProgress: () =>
         set({ completedLessons: {}, lessonPos: {}, quizScores: {}, entitlements: {}, recordings: [] })
     }),
@@ -107,7 +131,10 @@ export const useStore = create<State>()(
         lessonPos: s.lessonPos,
         quizScores: s.quizScores,
         entitlements: s.entitlements,
-        recordings: s.recordings
+        recordings: s.recordings,
+        contacts: s.contacts,
+        broadcasts: s.broadcasts,
+        sequences: s.sequences
       })
     }
   )

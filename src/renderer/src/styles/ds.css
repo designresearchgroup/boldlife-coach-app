@@ -350,3 +350,16 @@ ul.ticks li::before { content: '✓'; color: var(--ok); font-weight: 700; }
 .lc-note { flex: none; text-align: center; font-family: var(--mono); font-size: var(--text-2xs); color: #e4a; padding: 8px 16px; background: rgba(220,52,59,.12); border-top: 1px solid rgba(220,52,59,.2); }
 .lc-note code { color: #fff; }
 .lc-controls { flex: none; border-top: 1px solid rgba(255,255,255,.1); padding: 12px; background: #0a0a0a; }
+
+/* ---- Email / newsletter ---- */
+.em-tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--bd); }
+.em-tabs button { background: none; border: 0; border-bottom: 2px solid transparent; padding: 10px 14px; color: var(--t2); font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .05em; cursor: pointer; }
+.em-tabs button.on { color: var(--t1); border-bottom-color: var(--accent); }
+.em-lbl { display: block; font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .04em; color: var(--t3); margin: 0 0 6px; }
+.em-in { width: 100%; font-family: var(--font); font-size: var(--text-sm); color: var(--t1); background: var(--bg1); border: 1px solid var(--bd); padding: 10px 11px; border-radius: 0; }
+.em-in:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+.em-area { min-height: 120px; resize: vertical; line-height: 1.5; }
+.em-note { background: var(--accent-lt); border: 1px solid var(--bd); padding: 12px 15px; font-size: var(--text-sm); color: var(--t2); border-radius: 0; }
+.em-note b { color: var(--t1); }
+.em-note code { font-family: var(--mono); color: var(--t1); }
+.em-step { border: 1px solid var(--bd); padding: var(--sp4); }

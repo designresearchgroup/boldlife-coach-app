@@ -3,6 +3,7 @@ const PATHS: Record<string, string[]> = {
   home: ['M3 11l9-7 9 7', 'M5 10v10h14V10'],
   book: ['M4 4h11a2 2 0 0 1 2 2v14H6a2 2 0 0 1-2-2z', 'M9 4v16'],
   card: ['M3 6h18v12H3z', 'M3 10h18'],
+  mail: ['M3 5h18v14H3z', 'M3 6l9 7 9-7'],
   video: ['M15 10l6-4v12l-6-4z', 'M3 6h12v12H3z'],
   award: ['M12 14a5 5 0 1 0 0-10 5 5 0 0 0 0 10z', 'M9 13l-2 8 5-3 5 3-2-8'],
   user: ['M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', 'M4 21a8 8 0 0 1 16 0'],

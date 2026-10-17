@@ -11,6 +11,7 @@ import Session from '@renderer/screens/Session'
 import LiveClass from '@renderer/screens/LiveClass'
 import Pricing from '@renderer/screens/Pricing'
 import CoachConsole from '@renderer/screens/CoachConsole'
+import Email from '@renderer/screens/Email'
 
 const TITLES: Record<View, string> = {
   dashboard: 'Dashboard',
@@ -21,7 +22,8 @@ const TITLES: Record<View, string> = {
   session: 'Live session',
   liveclass: 'Live class',
   pricing: 'Enroll',
-  coach: 'Coach console'
+  coach: 'Coach console',
+  email: 'Audience & email'
 }
 
 function Sidebar(): JSX.Element {
@@ -32,7 +34,10 @@ function Sidebar(): JSX.Element {
     { view: 'liveclass', icon: 'video', label: 'Live class' },
     { view: 'pricing', icon: 'card', label: 'Enroll' }
   ]
-  if (role === 'coach') items.push({ view: 'coach', icon: 'user', label: 'Coach console' })
+  if (role === 'coach') {
+    items.push({ view: 'coach', icon: 'user', label: 'Coach console' })
+    items.push({ view: 'email', icon: 'mail', label: 'Email' })
+  }
 
   return (
     <aside className="side">
@@ -113,6 +118,7 @@ export default function App(): JSX.Element {
           {nav.view === 'certificate' && <Certificate />}
           {nav.view === 'pricing' && <Pricing />}
           {nav.view === 'coach' && <CoachConsole />}
+          {nav.view === 'email' && <Email />}
           {demoMode && (
             <div style={{ position: 'fixed', bottom: 12, left: 'calc(var(--nav-w) + 16px)', zIndex: 50 }}>
               <span className="badge badge-muted" title={`Running on ${platform}`}>
