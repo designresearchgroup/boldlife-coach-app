@@ -85,9 +85,13 @@ export default function App(): JSX.Element {
 
   useEffect(() => {
     const root = document.documentElement
-    if (theme) root.setAttribute('data-theme', theme)
+    // Sales is never dark: the Enroll / purchase screen is always light so people
+    // can actually see it to buy. Everywhere else respects the user's choice —
+    // for members, dark is good.
+    const effective = nav.view === 'pricing' ? 'light' : theme
+    if (effective) root.setAttribute('data-theme', effective)
     else root.removeAttribute('data-theme')
-  }, [theme])
+  }, [theme, nav.view])
 
   // The live session takes the whole window — no shell chrome.
   if (nav.view === 'session') return <Session />

@@ -40,7 +40,7 @@
   color-scheme: dark light;
 }
 :root[data-theme='light'] {
-  --bg: #f7f3f0; --bg1: #ffffff; --bg2: #f0 eae5; --bg2: #f1ebe6; --bg3: #e7ded7;
+  --bg: #f7f3f0; --bg1: #ffffff; --bg2: #f1ebe6; --bg3: #e7ded7;
   --bd: rgba(28, 20, 15, .12); --bd2: rgba(28, 20, 15, .22);
   --t1: #1c140f; --t2: #4b3f37; --t3: #776a60; --t4: #a99c91;
   --shadow: 0 1px 2px rgba(60,40,30,.08), 0 10px 30px rgba(60,40,30,.10);
