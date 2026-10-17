@@ -1,0 +1,38 @@
+appId: com.theboldlife.coach
+productName: The Bold Life Coach
+directories:
+  buildResources: build
+  output: release
+files:
+  - 'out/**'
+  - 'package.json'
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!vite.config.web.ts'
+  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+  - '!{.eslintrc,.prettierrc,.gitignore,README.md}'
+asarUnpack:
+  - resources/**
+win:
+  target:
+    - nsis
+  artifactName: ${name}-${version}-setup.${ext}
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  shortcutName: ${productName}
+mac:
+  target:
+    - dmg
+  category: public.app-category.education
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  # Live coaching needs camera, microphone and screen recording; these strings
+  # are what macOS shows in the permission prompts.
+  extendInfo:
+    NSCameraUsageDescription: The Bold Life Coach uses your camera for live 1:1 coaching sessions.
+    NSMicrophoneUsageDescription: The Bold Life Coach uses your microphone for live 1:1 coaching sessions.
+    NSScreenCaptureUsageDescription: The Bold Life Coach captures your screen when you share it in a session.
+dmg:
+  artifactName: ${name}-${version}.${ext}

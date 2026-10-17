@@ -1,0 +1,65 @@
+name: Build installers
+
+# Produces the downloadable Windows + macOS installers that get distributed from
+# drgx.co/apps/boldlife. Every push to main builds both and uploads them as
+# artifacts you can grab from the run. Pushing a v* tag also publishes a GitHub
+# Release with the installers attached — that's the stable download target.
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write # needed to create a Release on tags
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            platform: mac
+            pattern: 'release/*.dmg'
+          - os: windows-latest
+            platform: win
+            pattern: 'release/*.exe'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build + package (${{ matrix.platform }})
+        run: npm run pack:${{ matrix.platform }}
+        env:
+          # electron-builder downloads/caches with this; no code-signing secrets
+          # are set, so builds are unsigned (fine for v1 distribution).
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: boldlife-${{ matrix.platform }}
+          path: ${{ matrix.pattern }}
+          if-no-files-found: error
+
+      - name: Attach to GitHub Release (on tag)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.pattern }}
+          fail_on_unmatched_files: true
