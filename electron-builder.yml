@@ -17,7 +17,7 @@ asarUnpack:
 win:
   target:
     - nsis
-  artifactName: ${name}-${version}-setup.${ext}
+  artifactName: BoldLifeCoach-Setup.${ext}
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
@@ -35,4 +35,4 @@ mac:
     NSMicrophoneUsageDescription: The Bold Life Coach uses your microphone for live 1:1 coaching sessions.
     NSScreenCaptureUsageDescription: The Bold Life Coach captures your screen when you share it in a session.
 dmg:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: BoldLifeCoach.${ext}
