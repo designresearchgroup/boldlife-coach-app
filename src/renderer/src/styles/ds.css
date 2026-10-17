@@ -363,3 +363,14 @@ ul.ticks li::before { content: '✓'; color: var(--ok); font-weight: 700; }
 .em-note b { color: var(--t1); }
 .em-note code { font-family: var(--mono); color: var(--t1); }
 .em-step { border: 1px solid var(--bd); padding: var(--sp4); }
+
+/* ---- Agent cockpit ---- */
+.ac-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp3); margin-top: var(--sp6); }
+@media (max-width: 700px) { .ac-stats { grid-template-columns: repeat(2, 1fr); } }
+.ac-stat { text-align: center; }
+.ac-statn { font-family: var(--display); font-weight: 800; font-size: var(--text-3xl); color: var(--t1); line-height: 1; margin-bottom: 6px; }
+.ac-skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp3); margin-top: var(--sp3); }
+@media (max-width: 760px) { .ac-skills { grid-template-columns: 1fr; } }
+.ac-skill { display: flex; flex-direction: column; }
+.ac-result { margin-top: var(--sp5); }
+.ac-out { white-space: pre-wrap; font-family: var(--font); font-size: var(--text-sm); color: var(--t2); line-height: 1.55; margin: 0; }

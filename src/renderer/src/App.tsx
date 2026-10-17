@@ -22,7 +22,7 @@ const TITLES: Record<View, string> = {
   session: 'Live session',
   liveclass: 'Live class',
   pricing: 'Enroll',
-  coach: 'Coach console',
+  coach: 'Command center',
   email: 'Audience & email'
 }
 
@@ -35,7 +35,7 @@ function Sidebar(): JSX.Element {
     { view: 'pricing', icon: 'card', label: 'Enroll' }
   ]
   if (role === 'coach') {
-    items.push({ view: 'coach', icon: 'user', label: 'Coach console' })
+    items.push({ view: 'coach', icon: 'user', label: 'Command center' })
     items.push({ view: 'email', icon: 'mail', label: 'Email' })
   }
 

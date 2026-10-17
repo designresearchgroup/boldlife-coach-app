@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly VITE_DAILY_API_KEY?: string
   readonly VITE_STRIPE_PUBLISHABLE_KEY?: string
   readonly VITE_EMAIL_FUNCTION_URL?: string
+  readonly VITE_AGENT_URL?: string
 }
 interface ImportMeta {
   readonly env: ImportMetaEnv
