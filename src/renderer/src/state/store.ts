@@ -16,6 +16,7 @@ export type View =
   | 'quiz'
   | 'certificate'
   | 'session'
+  | 'liveclass'
   | 'pricing'
   | 'coach'
 

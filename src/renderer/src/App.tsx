@@ -8,6 +8,7 @@ import Lesson from '@renderer/screens/Lesson'
 import Quiz from '@renderer/screens/Quiz'
 import Certificate from '@renderer/screens/Certificate'
 import Session from '@renderer/screens/Session'
+import LiveClass from '@renderer/screens/LiveClass'
 import Pricing from '@renderer/screens/Pricing'
 import CoachConsole from '@renderer/screens/CoachConsole'
 
@@ -18,6 +19,7 @@ const TITLES: Record<View, string> = {
   quiz: 'Module check',
   certificate: 'Your certificate',
   session: 'Live session',
+  liveclass: 'Live class',
   pricing: 'Enroll',
   coach: 'Coach console'
 }
@@ -27,6 +29,7 @@ function Sidebar(): JSX.Element {
   const items: Array<{ view: View; icon: string; label: string }> = [
     { view: 'dashboard', icon: 'home', label: 'Dashboard' },
     { view: 'learn', icon: 'book', label: 'Academy' },
+    { view: 'liveclass', icon: 'video', label: 'Live class' },
     { view: 'pricing', icon: 'card', label: 'Enroll' }
   ]
   if (role === 'coach') items.push({ view: 'coach', icon: 'user', label: 'Coach console' })
@@ -93,8 +96,9 @@ export default function App(): JSX.Element {
     else root.removeAttribute('data-theme')
   }, [theme, nav.view])
 
-  // The live session takes the whole window — no shell chrome.
+  // The live session / class take the whole window — no shell chrome.
   if (nav.view === 'session') return <Session />
+  if (nav.view === 'liveclass') return <LiveClass />
 
   return (
     <div className="app">

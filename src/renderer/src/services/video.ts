@@ -1,7 +1,7 @@
 // Live-session media. Camera, screen share and recording are REAL here — they
-// use the browser/Electron media APIs and work with no external service. True
-// remote peering (two people in different places) is the one piece that needs a
-// provider (Daily) and is added behind this same surface in the production build.
+// use the browser/Electron media APIs and work with no external service. Remote
+// peering (two+ people in different places) is our own WebRTC mesh over Supabase
+// Realtime — see services/rtc.ts + the Live Class screen. No third-party video SaaS.
 // Mirrors the preload's ScreenSource shape without importing the preload module
 // (which would pull Electron into the renderer's web typecheck).
 export interface ScreenSource {
