@@ -93,12 +93,10 @@ export default function App(): JSX.Element {
 
   useEffect(() => {
     const root = document.documentElement
-    // Sales is never dark: the Enroll / purchase screen is always light so people
-    // can actually see it to buy. Everywhere else respects the user's choice —
-    // for members, dark is good.
-    const effective = nav.view === 'pricing' ? 'light' : theme
-    if (effective) root.setAttribute('data-theme', effective)
-    else root.removeAttribute('data-theme')
+    // Light by default — all work and samples are shown in light. Dark is a user
+    // option (the toggle). Sales (the Enroll screen) is always light.
+    const effective = nav.view === 'pricing' ? 'light' : theme ?? 'light'
+    root.setAttribute('data-theme', effective)
   }, [theme, nav.view])
 
   // The live session / class take the whole window — no shell chrome.

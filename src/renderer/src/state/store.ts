@@ -88,9 +88,8 @@ export const useStore = create<State>()(
       setRole: (role) => set({ role }),
       toggleTheme: () =>
         set((s) => {
-          const cur =
-            s.theme ??
-            (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+          // Light is the default; dark is the opt-in. First toggle goes to dark.
+          const cur = s.theme ?? 'light'
           return { theme: cur === 'dark' ? 'light' : 'dark' }
         }),
       setName: (learnerName) => set({ learnerName }),
