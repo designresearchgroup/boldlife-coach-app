@@ -75,7 +75,9 @@ export async function sendBroadcast(b: Broadcast, recipients: Contact[]): Promis
       })
     })
     if (!res.ok) return { ok: false, sent: 0, queued: recipients.length, transport: true, error: 'send failed (' + res.status + ')' }
-    return { ok: true, sent: recipients.length, queued: 0, transport: true }
+    const data = await res.json().catch(() => ({}) as { sent?: number })
+    const sent = typeof data.sent === 'number' ? data.sent : recipients.length
+    return { ok: true, sent, queued: Math.max(0, recipients.length - sent), transport: true }
   } catch (e) {
     return { ok: false, sent: 0, queued: recipients.length, transport: true, error: String(e) }
   }
