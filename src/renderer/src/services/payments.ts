@@ -17,10 +17,19 @@ export interface CheckoutResult {
 
 export async function checkout(item: CheckoutItem): Promise<CheckoutResult> {
   if (stripeConfigured) {
-    // Production path (wired when VITE_STRIPE_PUBLISHABLE_KEY is set): create a
-    // Checkout Session server-side and redirect. Intentionally not reachable in
-    // demo builds.
-    throw new Error('Live Stripe checkout is not configured in this build.')
+    // Live path: our own stripe-checkout Edge Function creates the Checkout
+    // Session (secret key server-side) and returns its URL; we redirect to it.
+    const base = (import.meta.env.VITE_SUPABASE_URL as string) || ''
+    const res = await fetch(`${base}/functions/v1/stripe-checkout`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ item })
+    })
+    const data = await res.json().catch(() => ({}) as { url?: string; id?: string; error?: string })
+    if (!res.ok || !data.url) throw new Error(data.error || 'Checkout failed.')
+    // Web redirects in place; the desktop app opens the system browser.
+    window.location.href = data.url
+    return { ok: true, ref: data.id || 'live', mode: 'live' }
   }
   // DEMO: pretend to process the card. No money moves; the entitlement unlocks.
   await new Promise((r) => setTimeout(r, 1200))
