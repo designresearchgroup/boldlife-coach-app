@@ -35,6 +35,14 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - name: Write .env (public client config from repo variables)
+        run: |
+          cat > .env <<EOF
+          VITE_SUPABASE_URL=${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY=${{ vars.VITE_SUPABASE_ANON_KEY }}
+          VITE_AGENT_URL=${{ vars.VITE_AGENT_URL }}
+          VITE_EMAIL_FUNCTION_URL=${{ vars.VITE_EMAIL_FUNCTION_URL }}
+          EOF
       - name: Build web (staging)
         run: npm run build:web
       - uses: actions/upload-pages-artifact@v3

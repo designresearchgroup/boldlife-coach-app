@@ -8,6 +8,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   root: 'src/renderer',
   base: './',
+  // .env lives at the project root, not under src/renderer (the Vite root).
+  envDir: __dirname,
   resolve: {
     alias: { '@renderer': resolve(__dirname, 'src/renderer/src') }
   },
