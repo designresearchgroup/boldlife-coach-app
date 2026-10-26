@@ -25,6 +25,7 @@ Deno.serve(async (req) => {
     success_url?: string
     cancel_url?: string
     mode?: string
+    interval?: string
   } = {}
   try {
     body = await req.json()
@@ -46,7 +47,7 @@ Deno.serve(async (req) => {
   form.set('line_items[0][price_data][product_data][name]', item.name)
   form.set('line_items[0][price_data][unit_amount]', String(price))
   if (mode === 'subscription') {
-    form.set('line_items[0][price_data][recurring][interval]', 'month')
+    form.set('line_items[0][price_data][recurring][interval]', body.interval === 'year' ? 'year' : 'month')
   }
 
   try {
