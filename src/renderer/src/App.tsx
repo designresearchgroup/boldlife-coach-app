@@ -12,6 +12,7 @@ import LiveClass from '@renderer/screens/LiveClass'
 import Pricing from '@renderer/screens/Pricing'
 import CoachConsole from '@renderer/screens/CoachConsole'
 import Email from '@renderer/screens/Email'
+import Onboarding from '@renderer/screens/Onboarding'
 
 const TITLES: Record<View, string> = {
   dashboard: 'Dashboard',
@@ -23,7 +24,8 @@ const TITLES: Record<View, string> = {
   liveclass: 'Live class',
   pricing: 'Enroll',
   coach: 'Command center',
-  email: 'Audience & email'
+  email: 'Audience & email',
+  onboarding: 'Get set up'
 }
 
 function Sidebar(): JSX.Element {
@@ -90,6 +92,19 @@ function Topbar(): JSX.Element {
 
 export default function App(): JSX.Element {
   const { nav, theme } = useStore()
+  const setOnboarded = useStore((s) => s.setOnboarded)
+
+  // Coming back from a successful Stripe checkout: mark them set up, clean the URL.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('purchased') === '1') {
+      setOnboarded(true)
+      const url = window.location.pathname + window.location.hash
+      window.history.replaceState({}, '', url)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     const root = document.documentElement
@@ -117,6 +132,7 @@ export default function App(): JSX.Element {
           {nav.view === 'pricing' && <Pricing />}
           {nav.view === 'coach' && <CoachConsole />}
           {nav.view === 'email' && <Email />}
+          {nav.view === 'onboarding' && <Onboarding />}
           {demoMode && (
             <div style={{ position: 'fixed', bottom: 12, left: 'calc(var(--nav-w) + 16px)', zIndex: 50 }}>
               <span className="badge badge-muted" title={`Running on ${platform}`}>

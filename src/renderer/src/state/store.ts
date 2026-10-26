@@ -21,6 +21,7 @@ export type View =
   | 'pricing'
   | 'coach'
   | 'email'
+  | 'onboarding'
 
 export interface Recording {
   id: string
@@ -36,6 +37,14 @@ export interface Nav {
   lessonId?: string
 }
 
+export interface CoachProfile {
+  name: string
+  email: string
+  niche: string
+  brandColor: string
+  plan: string
+}
+
 export interface State {
   role: Role
   theme: 'dark' | 'light' | null
@@ -48,6 +57,8 @@ export interface State {
   contacts: Contact[]
   broadcasts: Broadcast[]
   sequences: Sequence[]
+  onboarded: boolean
+  coachProfile: CoachProfile | null
   nav: Nav
 
   setRole: (r: Role) => void
@@ -66,6 +77,8 @@ export interface State {
   addSequence: (seq: Sequence) => void
   updateSequence: (id: string, patch: Partial<Sequence>) => void
   removeSequence: (id: string) => void
+  setCoachProfile: (p: CoachProfile) => void
+  setOnboarded: (v: boolean) => void
   resetProgress: () => void
 }
 
@@ -83,6 +96,8 @@ export const useStore = create<State>()(
       contacts: [],
       broadcasts: [],
       sequences: [],
+      onboarded: false,
+      coachProfile: null,
       nav: { view: 'dashboard' },
 
       setRole: (role) => set({ role }),
@@ -116,6 +131,8 @@ export const useStore = create<State>()(
       updateSequence: (id, patch) =>
         set((s) => ({ sequences: s.sequences.map((q) => (q.id === id ? { ...q, ...patch } : q)) })),
       removeSequence: (id) => set((s) => ({ sequences: s.sequences.filter((q) => q.id !== id) })),
+      setCoachProfile: (coachProfile) => set({ coachProfile }),
+      setOnboarded: (onboarded) => set({ onboarded }),
       resetProgress: () =>
         set({ completedLessons: {}, lessonPos: {}, quizScores: {}, entitlements: {}, recordings: [] })
     }),
@@ -133,7 +150,9 @@ export const useStore = create<State>()(
         recordings: s.recordings,
         contacts: s.contacts,
         broadcasts: s.broadcasts,
-        sequences: s.sequences
+        sequences: s.sequences,
+        onboarded: s.onboarded,
+        coachProfile: s.coachProfile
       })
     }
   )

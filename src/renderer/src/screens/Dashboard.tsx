@@ -55,6 +55,16 @@ export default function Dashboard(): JSX.Element {
         Keep moving through the Academy, join a live class, or jump into a 1:1 session whenever you’re ready.
       </p>
 
+      {!s.onboarded && (
+        <div className="banner" style={{ marginTop: 'var(--sp6)' }}>
+          <Icon name="card" size={16} />
+          <span>Finish setting up your Bold Life Coach platform — your brand, your plan, and you’re live.</span>
+          <button className="btn btn-solid btn-sm" style={{ marginLeft: 'auto' }} onClick={() => go('onboarding')}>
+            Get set up
+          </button>
+        </div>
+      )}
+
       <div className="grid g3" style={{ marginTop: 'var(--sp8)' }}>
         <div className="card card-pad">
           <div className="row between">

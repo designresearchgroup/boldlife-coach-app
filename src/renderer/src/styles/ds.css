@@ -374,3 +374,7 @@ ul.ticks li::before { content: '✓'; color: var(--ok); font-weight: 700; }
 .ac-skill { display: flex; flex-direction: column; }
 .ac-result { margin-top: var(--sp5); }
 .ac-out { white-space: pre-wrap; font-family: var(--font); font-size: var(--text-sm); color: var(--t2); line-height: 1.55; margin: 0; }
+
+/* ---- Onboarding plan picker ---- */
+.ob-plan { cursor: pointer; transition: border-color var(--dur), background var(--dur); }
+.ob-plan.on { border-color: var(--accent); background: var(--accent-lt); }
