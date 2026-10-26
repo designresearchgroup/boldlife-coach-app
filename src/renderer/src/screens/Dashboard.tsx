@@ -13,25 +13,34 @@ interface Next {
   level: Level
   module: Module
   lesson: Lesson
+  resuming: boolean
 }
 
-function findNext(completed: Record<string, boolean>, ent: Record<string, boolean>): Next | null {
+function findNext(
+  completed: Record<string, boolean>,
+  ent: Record<string, boolean>,
+  pos: Record<string, number>
+): Next | null {
+  const accessible: Next[] = []
   for (const level of PROGRAM.levels) {
     if (!hasAccess({ completedLessons: completed, quizScores: {}, entitlements: ent }, level)) continue
     for (const module of level.modules) {
       for (const lesson of module.lessons) {
-        if (!completed[lesson.id]) return { level, module, lesson }
+        if (!completed[lesson.id]) accessible.push({ level, module, lesson, resuming: false })
       }
     }
   }
-  return null
+  // Prefer a lesson already in progress (true resume); else the first untouched one.
+  const started = accessible.find((n) => (pos[n.lesson.id] ?? 0) > 0)
+  if (started) return { ...started, resuming: true }
+  return accessible[0] ?? null
 }
 
 export default function Dashboard(): JSX.Element {
   const s = useStore()
   const pct = academyPct(s)
   const certs = certifiedLevels(s)
-  const next = findNext(s.completedLessons, s.entitlements)
+  const next = findNext(s.completedLessons, s.entitlements, s.lessonPos)
   const enrolled = !!s.entitlements['academy']
   const go = (v: View, p?: Record<string, string>): void => s.go(v, p)
 
@@ -43,7 +52,7 @@ export default function Dashboard(): JSX.Element {
       </h2>
       <p className="muted" style={{ maxWidth: '60ch' }}>
         You’re on the {s.role === 'coach' ? 'coach' : 'client'} side of the Bold Life platform.
-        Keep moving through the Academy, and jump into a live session whenever you’re ready.
+        Keep moving through the Academy, join a live class, or jump into a 1:1 session whenever you’re ready.
       </p>
 
       <div className="grid g3" style={{ marginTop: 'var(--sp8)' }}>
@@ -107,7 +116,7 @@ export default function Dashboard(): JSX.Element {
 
       <div className="grid g2" style={{ marginTop: 'var(--sp6)' }}>
         <div className="card card-pad">
-          <div className="label label-accent">Continue learning</div>
+          <div className="label label-accent">{next?.resuming ? 'Pick up where you left off' : 'Up next'}</div>
           {next ? (
             <>
               <h3 style={{ fontSize: 'var(--text-xl)', margin: '10px 0 2px' }}>{next.lesson.title}</h3>
@@ -121,7 +130,7 @@ export default function Dashboard(): JSX.Element {
                   go('lesson', { levelId: next.level.id, moduleId: next.module.id, lessonId: next.lesson.id })
                 }
               >
-                Resume lesson <Icon name="arrow" size={16} />
+                {next.resuming ? 'Resume lesson' : 'Start lesson'} <Icon name="arrow" size={16} />
               </button>
             </>
           ) : (
@@ -142,14 +151,19 @@ export default function Dashboard(): JSX.Element {
         <div className="card card-pad">
           <div className="label label-accent">Live coaching</div>
           <h3 style={{ fontSize: 'var(--text-xl)', margin: '10px 0 2px' }}>
-            {s.role === 'coach' ? 'Start a session with a client' : 'Meet with your coach'}
+            {s.role === 'coach' ? 'Go live with your people' : 'Meet live'}
           </h3>
           <p className="dim" style={{ fontSize: 'var(--text-sm)' }}>
-            1:1 video, screen share, and recording — right inside the app.
+            A 1:1 room or a full live class — video, screen share, and recording, right inside the app.
           </p>
-          <button className="btn btn-solid" style={{ marginTop: 'var(--sp5)' }} onClick={() => go('session')}>
-            <Icon name="video" size={16} /> Enter session
-          </button>
+          <div className="row" style={{ marginTop: 'var(--sp5)', gap: 'var(--sp3)', flexWrap: 'wrap' }}>
+            <button className="btn btn-solid" onClick={() => go('session')}>
+              <Icon name="video" size={16} /> 1:1 session
+            </button>
+            <button className="btn btn-ghost" onClick={() => go('liveclass')}>
+              <Icon name="user" size={16} /> Live class
+            </button>
+          </div>
         </div>
       </div>
 
